@@ -64,13 +64,20 @@ public class AutoGridView extends GridView {
 	}
 	
 	@Override
-	public void setNumColumns(int numColumns) {
-		this.numColumns = numColumns;
-		super.setNumColumns(numColumns);
-	
-		Log.d(TAG, "setSelection --> " + previousFirstVisible);
-		setSelection(previousFirstVisible);
-	}
+    public void setNumColumns(int numColumns) {
+        this.numColumns = numColumns;
+        super.setNumColumns(numColumns);
+        Handler mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message message) {
+                // This is where you do your work in the UI thread.
+                // Your worker tells you in the message what to do.
+                Log.d(TAG, "setSelection --> " + previousFirstVisible);
+                setSelection(previousFirstVisible);
+            }
+        };
+
+    }
 	
 	@Override
 	protected void onLayout(boolean changed, int leftPos, int topPos, int rightPos, int bottomPos) {
